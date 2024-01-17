@@ -1,4 +1,4 @@
-package com.spyj.fakestore.Configurations;
+package com.spyj.estore.Configurations;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;

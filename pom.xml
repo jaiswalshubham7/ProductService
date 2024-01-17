@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.spyj</groupId>
-    <artifactId>FakeStore</artifactId>
+    <artifactId>ProductService</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>FakeStore</name>
     <description>FakeStore</description>

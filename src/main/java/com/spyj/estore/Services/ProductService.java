@@ -1,6 +1,6 @@
-package com.spyj.fakestore.Services;
+package com.spyj.estore.Services;
 
-import com.spyj.fakestore.Models.Product;
+import com.spyj.estore.Models.Product;
 
 import java.util.List;
 

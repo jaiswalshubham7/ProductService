@@ -1,8 +1,8 @@
-package com.spyj.fakestore.Services;
+package com.spyj.estore.Services;
 
-import com.spyj.fakestore.DTOs.ProductDTO;
-import com.spyj.fakestore.Models.Product;
-import com.spyj.fakestore.Models.ProductCategory;
+import com.spyj.estore.DTOs.ProductDTO;
+import com.spyj.estore.Models.Category;
+import com.spyj.estore.Models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -43,7 +43,7 @@ public class FakeStoreProductService implements ProductService{
         product.setId(productDTO.getId());
         product.setTitle(productDTO.getTitle());
         product.setPrice(productDTO.getPrice());
-        product.setCategory(new ProductCategory(null, productDTO.getCategory()));
+        product.setCategory(new Category(null, productDTO.getCategory()));
         product.setDescription(productDTO.getDescription());
         product.setImage(productDTO.getImage());
 

@@ -1,10 +1,10 @@
-package com.spyj.fakestore;
+package com.spyj.estore;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FakeStoreApplicationTests {
+class ProductServiceApplicationTests {
 
     @Test
     void contextLoads() {

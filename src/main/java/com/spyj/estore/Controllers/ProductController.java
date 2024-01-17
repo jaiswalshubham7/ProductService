@@ -1,7 +1,7 @@
-package com.spyj.fakestore.Controllers;
+package com.spyj.estore.Controllers;
 
-import com.spyj.fakestore.Models.Product;
-import com.spyj.fakestore.Services.ProductService;
+import com.spyj.estore.Models.Product;
+import com.spyj.estore.Services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

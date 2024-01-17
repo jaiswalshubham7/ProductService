@@ -1,15 +1,15 @@
-package com.spyj.fakestore.DTOs;
+package com.spyj.estore.Models;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ProductDTO {
+public class Product {
     private Long id;
     private String title;
     private Double price;
-    private String category;
+    private Category category;
     private String description;
     private String image;
 }
