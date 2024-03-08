@@ -2,8 +2,8 @@ package com.spyj.estore.Services;
 
 import com.spyj.estore.DTOs.FakeStoreProductResponseDto;
 import com.spyj.estore.DTOs.ProductRequestDto;
-import com.spyj.estore.Exceptions.FakeStoreServerError;
 import com.spyj.estore.Exceptions.ProductNotFoundException;
+import com.spyj.estore.Exceptions.ServerError;
 import com.spyj.estore.Models.Category;
 import com.spyj.estore.Models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +69,7 @@ public class FakeStoreProductService implements ProductService{
     }
 
     @Override
-    public Product createProduct(ProductRequestDto productRequestDto) throws FakeStoreServerError {
+    public Product createProduct(ProductRequestDto productRequestDto) throws ServerError {
 //
         ResponseEntity<FakeStoreProductResponseDto> productDTO = restTemplate.postForEntity(
                 "https://fakestoreapi.com/products",
@@ -80,14 +80,14 @@ public class FakeStoreProductService implements ProductService{
         if (productDTO.getStatusCode() != HttpStatusCode.valueOf(200)){
             Logger.getLogger("Creating new Product on FakeStore thrown the exception.");
             Logger.getLogger("Exception Code : " + productDTO.getStatusCode());
-            throw new FakeStoreServerError("Unable to Create Product due to FakeStore Server Error.");
+            throw new ServerError("Unable to Create Product due to FakeStore Server Error.");
         }
 
         return this.convertProductDTOtoProduct(Objects.requireNonNull(productDTO.getBody()));
     }
 
     @Override
-    public Product updateProductDetails(Long id, ProductRequestDto productDTO) throws FakeStoreServerError {
+    public Product updateProductDetails(Long id, ProductRequestDto productDTO) throws ServerError {
 
         FakeStoreProductResponseDto fakeStoreProductResponseDto =  restTemplate.patchForObject(
                 "https://fakestoreapi.com/products/" + id,
@@ -95,7 +95,7 @@ public class FakeStoreProductService implements ProductService{
                 FakeStoreProductResponseDto.class
         );
         if (fakeStoreProductResponseDto == null){
-            throw new FakeStoreServerError("FakeStore Server error.");
+            throw new ServerError("FakeStore Server error.");
         }
 
         return convertProductDTOtoProduct(fakeStoreProductResponseDto);
@@ -114,12 +114,21 @@ public class FakeStoreProductService implements ProductService{
         return convertProductDTOtoProduct(Objects.requireNonNull(fakeStoreProductResponseDto));
     }
 
+    @Override
+    public void deleteProduct(Long id) {
+        restTemplate.delete(
+                "https://fakestoreapi.com/products/" + id
+        );
+    }
+
     public Product convertProductDTOtoProduct(FakeStoreProductResponseDto productDTO){
         Product product = new Product();
+        Category category = new Category();
+        category.setCategoryName(productDTO.getCategory());
         product.setId(productDTO.getId());
         product.setTitle(productDTO.getTitle());
         product.setPrice(productDTO.getPrice());
-        product.setCategory(new Category(null, productDTO.getCategory()));
+        product.setCategory(category);
         product.setDescription(productDTO.getDescription());
         product.setImage(productDTO.getImage());
 

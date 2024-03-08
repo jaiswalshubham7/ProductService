@@ -9,15 +9,16 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ExceptionHandlers {
     @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<Void> handleProductNotFoundException(){
-        return new ResponseEntity<>(HttpStatusCode.valueOf(200));
+    public ResponseEntity<String> handleProductNotFoundException(){
+        return new ResponseEntity<>(
+                "Product Not Found", HttpStatusCode.valueOf(404));
     }
 
-    @ExceptionHandler(ArithmeticException.class)
-    public ResponseEntity<ArithmeticExceptionDto> handleArithmeticException(){
-        ArithmeticExceptionDto arithmeticExceptionDto = ArithmeticExceptionDto.builder().message("Illegal Argument passed.").build();
-        return new ResponseEntity<>(
-                arithmeticExceptionDto, HttpStatusCode.valueOf(200)
-        );
-    }
+//    @ExceptionHandler(ArithmeticException.class)
+//    public ResponseEntity<ArithmeticExceptionDto> handleArithmeticException(){
+//        ArithmeticExceptionDto arithmeticExceptionDto = ArithmeticExceptionDto.builder().message("Illegal Argument passed.").build();
+//        return new ResponseEntity<>(
+//                arithmeticExceptionDto, HttpStatusCode.valueOf(200)
+//        );
+//    }
 }
