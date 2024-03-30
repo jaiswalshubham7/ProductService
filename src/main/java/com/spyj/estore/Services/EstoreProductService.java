@@ -1,12 +1,14 @@
 package com.spyj.estore.Services;
 
 import com.spyj.estore.DTOs.ProductRequestDto;
+import com.spyj.estore.DTOs.ProductResponseDto;
 import com.spyj.estore.Exceptions.CategoryNotFoundException;
 import com.spyj.estore.Exceptions.ProductNotFoundException;
 import com.spyj.estore.Exceptions.ServerError;
 import com.spyj.estore.Models.Category;
 import com.spyj.estore.Models.Product;
 import com.spyj.estore.Repository.ProductRepository;
+import com.spyj.estore.Repository.Projections.ProductWithIdAndTitle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,10 @@ public class EstoreProductService implements ProductService{
 
     @Override
     public Product getProductDetails(Long id) throws ProductNotFoundException {
+//        Projections
+//        ProductWithIdAndTitle projectedProduct = productRepository.getProductWithIdAndTitle(id);
+//        projectedProduct.getId();
+
         Optional<Product> product = productRepository.findByIdAndAndIsDeleted(id, Boolean.FALSE);
         if(product.isEmpty()){
             throw new ProductNotFoundException("Product Not found in the Database");

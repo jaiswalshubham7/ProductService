@@ -8,7 +8,9 @@ import com.spyj.estore.Exceptions.ServerError;
 import com.spyj.estore.Models.Product;
 import com.spyj.estore.Services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,16 +26,16 @@ public class ProductController {
     public ProductController(ProductService productService){
         this.productService = productService;
     }
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductResponseDto> getProduct(@PathVariable("id") Long id) throws ProductNotFoundException {
         Product product =  productService.getProductDetails(id);
         ProductResponseDto productResponseDto = convertProductToProductResponseDto(product);
         return new ResponseEntity<>(
-                productResponseDto, HttpStatusCode.valueOf(200)
+                productResponseDto, HttpStatus.OK
         );
     }
 
-    @GetMapping()
+    @GetMapping(produces = "application/json")
     public ResponseEntity<List<ProductResponseDto>> getAllProducts() throws ProductNotFoundException {
         List<Product> productList =  productService.getAllProducts();
         List<ProductResponseDto> productResponseDtoList = new ArrayList<>();
@@ -45,7 +47,7 @@ public class ProductController {
         );
     }
 
-    @PostMapping()
+    @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<ProductResponseDto> createProduct(@RequestBody ProductRequestDto productDTO) throws ServerError, CategoryNotFoundException {
         Product newProduct = productService.createProduct(productDTO);
         ProductResponseDto productResponseDto = convertProductToProductResponseDto(newProduct);
@@ -54,16 +56,15 @@ public class ProductController {
         );
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<ProductResponseDto> updateProductDetails(@PathVariable("id") Long id, @RequestBody ProductRequestDto productDTO) throws ServerError, CategoryNotFoundException, ProductNotFoundException {
-        Product updatedProduct = productService.updateProductDetails(id, productDTO);
-        ProductResponseDto productResponseDto = convertProductToProductResponseDto(updatedProduct);
+        productService.updateProductDetails(id, productDTO);
         return new ResponseEntity<>(
-                productResponseDto, HttpStatusCode.valueOf(200)
+                HttpStatusCode.valueOf(200)
         );
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<ProductResponseDto> updateEntireProduct(@PathVariable("id") Long id, @RequestBody ProductRequestDto productDTO) throws ServerError, CategoryNotFoundException, ProductNotFoundException {
         Product updatedProduct = productService.updateEntireProduct(id, productDTO);
         ProductResponseDto productResponseDto = convertProductToProductResponseDto(updatedProduct);
@@ -76,7 +77,7 @@ public class ProductController {
     public ResponseEntity<Void> deleteProduct(@PathVariable("id") Long id) throws ProductNotFoundException {
         productService.deleteProduct(id);
         return new ResponseEntity<>(
-                HttpStatusCode.valueOf(200)
+                HttpStatusCode.valueOf(204)
         );
     }
 

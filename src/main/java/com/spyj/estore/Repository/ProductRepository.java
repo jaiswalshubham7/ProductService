@@ -2,6 +2,7 @@ package com.spyj.estore.Repository;
 
 import com.spyj.estore.Models.Category;
 import com.spyj.estore.Models.Product;
+import com.spyj.estore.Repository.Projections.ProductWithIdAndTitle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +19,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findByIdAndAndIsDeleted(Long id, Boolean isDeleted);
 
     List<Product> findByIsDeleted(Boolean isDeleted);
+
+    @Query("select p.id, p.title from Product p where p.id = ?1")
+    ProductWithIdAndTitle getProductWithIdAndTitle(Long id);
 
     @Transactional
     @Modifying
